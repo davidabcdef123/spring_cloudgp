@@ -1,0 +1,6 @@
+spring:
+  application:
+    name:foo
+
+server:
+  port: 7070
