@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * Created by sc on 2019-03-05.
  */
-public class LoadBalancedRequestInterceptor implements ClientHttpRequestInterceptor {
+public class LoadBalancedRequestInterceptor implements ClientHttpRequestInterceptor{
 
     // Map Key service Name , Value URLs
     private volatile Map<String, Set<String>> targetUrlsCache = new HashMap<>();

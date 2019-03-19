@@ -25,15 +25,14 @@ public class ServerControllerAspect {
     private ExecutorService executorService = newFixedThreadPool(20);
 
     private volatile Semaphore semaphore=null;
+    //com.david.cloud.server.controller.ServerController
 
-    @Around("execution(* com.gupao.micro.services.spring.cloud." +
-            "server.controller.ServerController.advancedSay(..)) && args(message) ")
+    @Around("execution(* com.david.cloud.server.controller.ServerController.advancedSay(..)) && args(message) ")
     public Object advancedSayInTimeout(ProceedingJoinPoint point,String message)throws Throwable{
         return doInvoke(point,message,100);
     }
 
-    @Around("execution(* com.gupao.micro.services.spring.cloud." +
-            "server.controller.ServerController.advancedSay2(..)) && args(message) ")
+    @Around("execution(* com.david.cloud.server.controller.ServerController.advancedSay2(..)) && args(message) ")
     public Object advancedSay2InTimeout(ProceedingJoinPoint point,
                                         String message) throws Throwable {
         long timeout=-1;

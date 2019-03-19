@@ -20,15 +20,16 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableScheduling
-@EnableFeignClients(clients = SayingService.class) // 引入 FeignClient spring的
-@EnableRestClient(clients = SayingRestService.class) // 引入 @RestClient 自定义的
-@EnableBinding(SimpleMessageService.class)
+//@EnableFeignClients(clients = SayingService.class) // 引入 FeignClient spring的
+//@EnableRestClient(clients = SayingRestService.class) // 引入 @RestClient 自定义的
+//@EnableBinding(SimpleMessageService.class)
 public class SpringCloudClientApplication {
+    //todo
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SpringCloudClientApplication.class)
                 .web(WebApplicationType.SERVLET)
-                .listeners(new HttpRemoteAppEventListener())
+               // .listeners(new HttpRemoteAppEventListener())
                 .run(args);
     }
 }

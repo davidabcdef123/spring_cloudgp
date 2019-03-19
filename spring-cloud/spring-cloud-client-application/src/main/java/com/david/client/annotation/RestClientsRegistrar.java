@@ -23,14 +23,17 @@ import static org.springframework.core.annotation.AnnotationUtils.findAnnotation
 /**
  * Created by sc on 2019-03-05.
  */
-public class RestClientsRegistrar implements ImportBeanDefinitionRegistrar, BeanFactoryAware {
+
+//todo 暂时注释掉 implements ImportBeanDefinitionRegistrar, BeanFactoryAware
+public class RestClientsRegistrar {
 
     private BeanFactory beanFactory;
     private Environment environment;
 
     //z注册bean
-    @Override
-    public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
+    //todo
+    //@Override
+    /*public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
         ClassLoader classLoader=annotationMetadata.getClass().getClassLoader();
         Map<String, Object> attributes = annotationMetadata.getAnnotationAttributes(EnableRestClient.class.getName());
         Class<?>[] clientClasses= (Class<?>[]) attributes.get("client");
@@ -61,7 +64,7 @@ public class RestClientsRegistrar implements ImportBeanDefinitionRegistrar, Bean
                     }
 //                    registerBeanByFactoryBean(serviceName,proxy,restClientClass,registry);
                 });
-    }
+    }*/
     private static void registerBeanByFactoryBean(String serviceName,
                                                   Object proxy, Class<?> restClientClass, BeanDefinitionRegistry registry) {
         String beanName = "RestClient." + serviceName;
@@ -80,7 +83,8 @@ public class RestClientsRegistrar implements ImportBeanDefinitionRegistrar, Bean
 
     }
 
-    @Override
+    //todo
+    //@Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 
     }

@@ -17,7 +17,8 @@ import java.lang.reflect.Method;
  * Created by sc on 2019-03-05.
  * 调用处理器
  */
-public class RequestMappingMethodInvocationHandler implements InvocationHandler {
+//todo   implements InvocationHandler
+public class RequestMappingMethodInvocationHandler {
 
     private final ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
@@ -29,7 +30,7 @@ public class RequestMappingMethodInvocationHandler implements InvocationHandler 
         this.beanFactory = beanFactory;
     }
 
-    @Override
+    //@Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 过滤 @RequestMapping 方法
         GetMapping getMapping = AnnotationUtils.findAnnotation(method, GetMapping.class);

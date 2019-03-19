@@ -9,7 +9,7 @@ import java.lang.annotation.*;
  * 负载均衡
  */
 //Inherited 继承
-@Target({ElementType.FIELD,ElementType.METHOD,ElementType.TYPE_PARAMETER})
+@Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited

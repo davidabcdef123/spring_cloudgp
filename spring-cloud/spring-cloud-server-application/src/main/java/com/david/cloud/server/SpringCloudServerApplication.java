@@ -26,13 +26,13 @@ import java.io.UnsupportedEncodingException;
 @EnableDiscoveryClient// 激活服务发现客户端
 @EnableHystrix// 激活 Hystrix
 @EnableAspectJAutoProxy(proxyTargetClass = true) // 激活 AOP
-@EnableBinding(SimpleMessageReceiver.class)// 激活并引入 SimpleMessageReceiver
+//@EnableBinding(SimpleMessageReceiver.class)// 激活并引入 SimpleMessageReceiver
 @EnableAsync
 @Indexed //预编译会在MEAT-INF下生成文件 todo
 public class SpringCloudServerApplication {
 
-    @Autowired
-    private SimpleMessageReceiver simpleMessageReceiver;
+  /*  @Autowired
+    private SimpleMessageReceiver simpleMessageReceiver;*/
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SpringCloudServerApplication.class)
@@ -40,7 +40,7 @@ public class SpringCloudServerApplication {
         .run(args);
     }
 
-    @PostConstruct
+/*    @PostConstruct
     public void init(){//接口编程
         // 获取 SubscribableChannel
         SubscribableChannel subscribableChannel = simpleMessageReceiver.gupao();
@@ -85,5 +85,5 @@ public class SpringCloudServerApplication {
     @StreamListener("test-http")  // Spring Cloud Stream 注解驱动
     public void onMessageFromHttp(byte[] data) {
         System.out.println("HTTP - onMessage(byte[]): " + new String(data));
-    }
+    }*/
 }

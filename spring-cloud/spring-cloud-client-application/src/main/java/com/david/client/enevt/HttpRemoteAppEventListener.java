@@ -18,7 +18,9 @@ import java.util.Map;
  * {@link RemoteAppEvent} 监听器，将事件数据发送 HTTP 请求到目标机器
  * 监听 {@link ContextRefreshedEvent}
  */
-public class HttpRemoteAppEventListener implements SmartApplicationListener {
+
+//todo 注释掉  implements SmartApplicationListener
+public class HttpRemoteAppEventListener  {
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -50,20 +52,20 @@ public class HttpRemoteAppEventListener implements SmartApplicationListener {
     }
 
 
-    @Override
+    //@Override
     public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
 
         return RemoteAppEvent.class.isAssignableFrom(eventType)|| ContextRefreshedEvent.class.isAssignableFrom(eventType);
     }
 
-    @Override
+    //@Override
     public boolean supportsSourceType(Class<?> aClass) {
         System.err.println("supportsSourceType="+aClass);
 
         return true;
     }
 
-    @Override
+    //@Override
     public void onApplicationEvent(ApplicationEvent applicationEvent) {
         if(applicationEvent instanceof RemoteAppEvent){
             onApplicationEvent((RemoteAppEvent) applicationEvent);
@@ -81,7 +83,7 @@ public class HttpRemoteAppEventListener implements SmartApplicationListener {
         this.currentAppName=applicationContext.getEnvironment().getProperty("spring.application.name");
     }
 
-    @Override
+   // @Override
     public int getOrder() {
         return 0;
     }

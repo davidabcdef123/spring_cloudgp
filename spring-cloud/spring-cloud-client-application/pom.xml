@@ -52,18 +52,19 @@
         </dependency>
 
         <!--  RocketMQ -->
-        <dependency>
+        <!--todo -->
+<!--        <dependency>
             <groupId>com.david</groupId>
             <artifactId>spring-cloud-stream-binder-rocketmq</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- Spring Cloud Stream HTTP Binder -->
+        &lt;!&ndash; Spring Cloud Stream HTTP Binder &ndash;&gt;
         <dependency>
             <groupId>com.david</groupId>
             <artifactId>spring-cloud-stream-binder-http</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -91,6 +92,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.56</version>
         </dependency>
     </dependencies>
 
