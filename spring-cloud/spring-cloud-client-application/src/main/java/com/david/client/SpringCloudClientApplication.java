@@ -24,7 +24,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableRestClient(clients = SayingRestService.class) // 引入 @RestClient 自定义的
 //@EnableBinding(SimpleMessageService.class)
 public class SpringCloudClientApplication {
-    //todo
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SpringCloudClientApplication.class)

@@ -109,13 +109,6 @@ public class ClientController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-/*    @Autowired
-    private SayingService sayingService;*/
-
-    //todo
-    /*@Autowired
-    private SayingRestService sayingRestService;*/
-
     //    // Map Key service Name , Value URLs
     private volatile Map<String, Set<String>> targetUrlsCache = new HashMap<>();
 
