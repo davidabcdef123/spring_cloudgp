@@ -34,13 +34,19 @@ public class ClientController {
 /*    @Autowired
     private RestTemplate restTemplate;*/
 
+    @Autowired
+    SayingService sayingService;
+
+    @Autowired
+    SayingRestService sayingRestService;
+
     //自定义的
     @Autowired
     @CustomizedLoadBalanced
     private RestTemplate restTemplate;
 
     @Bean
-    public ClientHttpRequestInterceptor interceptor(){
+    public ClientHttpRequestInterceptor interceptor() {
         return new LoadBalancedRequestInterceptor();
     }
 
@@ -50,7 +56,7 @@ public class ClientController {
 
     @LoadBalanced
     @Bean
-    public RestTemplate loadBalancedRestTemplate(){
+    public RestTemplate loadBalancedRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         System.out.println(restTemplate);
         return restTemplate;
@@ -59,9 +65,19 @@ public class ClientController {
     @Bean
     @Autowired
     @CustomizedLoadBalanced
-    public  RestTemplate restTemplate(){
-        RestTemplate restTemplate=new RestTemplate();
+    public RestTemplate restTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
         return restTemplate;
+    }
+
+    @GetMapping("/feign/say")
+    public String feignSay(@RequestParam String message){
+        return sayingService.say(message);
+    }
+
+    @GetMapping("/feignRest/say")
+    public String feignRestSay(@RequestParam String message){
+        return sayingRestService.say(message);
     }
 
     //加入拦截器的
@@ -79,13 +95,12 @@ public class ClientController {
     @Bean
     @Autowired
     public Object customizer(@CustomizedLoadBalanced Collection<RestTemplate> restTemplates,
-    ClientHttpRequestInterceptor interceptor) {
-        restTemplates.forEach(r->{
+                             ClientHttpRequestInterceptor interceptor) {
+        restTemplates.forEach(r -> {
             r.setInterceptors(Arrays.asList(interceptor));
         });
         return new Object();
     }
-
 
 
     @Value("${spring.application.name}")
@@ -108,23 +123,23 @@ public class ClientController {
     private volatile Set<String> targetUrls = new HashSet<>();
 
     /**
-    * Author: sc
-    * Since: 2019-03-18
-    * Describe:自己注册到zk，然后获取自己的列表
-    * Update: [变更日期YYYY-MM-DD][更改人姓名][变更描述]
-    */
-    @Scheduled(fixedRate = 10*1000)//10秒更新一次缓存
-    public void updateTargetUrlCache(){//更新模板 urls
+     * Author: sc
+     * Since: 2019-03-18
+     * Describe:自己注册到zk，然后获取自己的列表
+     * Update: [变更日期YYYY-MM-DD][更改人姓名][变更描述]
+     */
+    @Scheduled(fixedRate = 10 * 1000)//10秒更新一次缓存
+    public void updateTargetUrlCache() {//更新模板 urls
         // 获取当前应用的机器列表
 //        // http://${ip}:${port}
-        Set<String> oldTargetUrils=this.targetUrls;
+        Set<String> oldTargetUrils = this.targetUrls;
         List<ServiceInstance> serviceInstance = discoveryClient.getInstances(currentServiceName);
-        Set<String> newTargetUrls=serviceInstance.stream().map(s->
-                        s.isSecure() ?
-                                "https://" + s.getHost() + ":" + s.getPort() :
-                                "http://" + s.getHost() + ":" + s.getPort()
+        Set<String> newTargetUrls = serviceInstance.stream().map(s ->
+                s.isSecure() ?
+                        "https://" + s.getHost() + ":" + s.getPort() :
+                        "http://" + s.getHost() + ":" + s.getPort()
         ).collect(Collectors.toSet());
-        this.targetUrls=newTargetUrls;
+        this.targetUrls = newTargetUrls;
         oldTargetUrils.clear();
     }
 
@@ -138,7 +153,7 @@ public class ClientController {
             Set<String> newTargetUrls = serviceInstances
                     .stream()
                     .map(s ->
-                           s.isSecure() ?
+                            s.isSecure() ?
                                     "https://" + s.getHost() + ":" + s.getPort() :
                                     "http://" + s.getHost() + ":" + s.getPort()
                     ).collect(Collectors.toSet());
@@ -150,7 +165,7 @@ public class ClientController {
 
 
     @GetMapping("/invoke/{serviceName}/say") // -> /say
-    public String invokeSay(@PathVariable String serviceName, @RequestParam String message){
+    public String invokeSay(@PathVariable String serviceName, @RequestParam String message) {
         // 自定义 RestTemplate 发送请求到服务器
 /*        List<String> targetUrls = new LinkedList<>(targetUrlsCache.get(serviceName));
         int size = targetUrls.size();
@@ -158,7 +173,7 @@ public class ClientController {
         String targetUrl = targetUrls.get(index);
         return restTemplate.getForObject(targetUrl + "/say?message="+message, String.class);
         */
-        return restTemplate.getForObject("/"+serviceName + "/say?message="+message, String.class);
+        return restTemplate.getForObject("/" + serviceName + "/say?message=" + message, String.class);
     }
 
     @GetMapping("/lb/invoke/{serviceName}/say") // -> /say
@@ -179,20 +194,20 @@ public class ClientController {
         return sayingRestService.say(message);
     }*/
 
- /**
- * Author: sc
- * Since: 2019-03-18
- * Describe:自己调用自己，没什么实际意义
- * Update: [变更日期YYYY-MM-DD][更改人姓名][变更描述]
- */
+    /**
+     * Author: sc
+     * Since: 2019-03-18
+     * Describe:自己调用自己，没什么实际意义
+     * Update: [变更日期YYYY-MM-DD][更改人姓名][变更描述]
+     */
     @GetMapping("/invoke/say")
     public String invokeSay(@RequestParam String message) {
         //服务器列表快照
         List<String> list = new ArrayList<>(this.targetUrls);
-        int size=list.size();
+        int size = list.size();
         int index = new Random().nextInt(size);
         String targetUrl = list.get(index);
-        return restTemplate.getForObject(targetUrl+"/say?message="+message,String.class);
+        return restTemplate.getForObject(targetUrl + "/say?message=" + message, String.class);
     }
 
     @GetMapping("/say")
@@ -202,17 +217,13 @@ public class ClientController {
     }
 
 
-
-
     // 自定义 RestTemplate Bean
 
 
-
-
     @GetMapping("/service/instances/{serviceName}")
-    public List<String> getAllServiceInstance(@PathVariable String serviceName){
+    public List<String> getAllServiceInstance(@PathVariable String serviceName) {
         return discoveryClient.getInstances(serviceName).stream()
-                .map(s->s.getServiceId() + " - " + s.getHost() + ":" + s.getPort()).
+                .map(s -> s.getServiceId() + " - " + s.getHost() + ":" + s.getPort()).
                         collect(Collectors.toList());
     }
 }

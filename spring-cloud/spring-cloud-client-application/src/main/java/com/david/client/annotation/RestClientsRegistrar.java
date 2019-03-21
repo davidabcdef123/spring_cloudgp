@@ -9,6 +9,7 @@ import org.springframework.beans.factory.config.SingletonBeanRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
@@ -22,21 +23,22 @@ import static org.springframework.core.annotation.AnnotationUtils.findAnnotation
 
 /**
  * Created by sc on 2019-03-05.
+ * ImportBeanDefinitionRegistrar bean的注册接口
+ * BeanFactoryAware 设置Beanfactory的接口
+ * EnvironmentAware 设置环境的接口
  */
 
-//todo 暂时注释掉 implements ImportBeanDefinitionRegistrar, BeanFactoryAware
-public class RestClientsRegistrar {
+public class RestClientsRegistrar  implements ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware {
 
     private BeanFactory beanFactory;
     private Environment environment;
 
     //z注册bean
-    //todo
-    //@Override
-    /*public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
+    @Override
+    public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
         ClassLoader classLoader=annotationMetadata.getClass().getClassLoader();
         Map<String, Object> attributes = annotationMetadata.getAnnotationAttributes(EnableRestClient.class.getName());
-        Class<?>[] clientClasses= (Class<?>[]) attributes.get("client");
+        Class<?>[] clientClasses= (Class<?>[]) attributes.get("clients");
         // 接口类对象数组
         // 筛选所有接口
         Stream.of(clientClasses).
@@ -56,15 +58,15 @@ public class RestClientsRegistrar {
                     // 将 @RestClient 接口代理实现注册为 Bean（@Autowired）
                     // BeanDefinitionRegistry registry
                     String beanName="RestClient."+serviceName;
-                    // 实现方略二：SingletonBeanRegistry
+                    // 实现方略二：Singleton BeanRegistry
                     if(beanDefinitionRegistry instanceof SingletonBeanRegistry){
                         SingletonBeanRegistry singletonBeanRegistry= (SingletonBeanRegistry) beanDefinitionRegistry;
                         singletonBeanRegistry.registerSingleton(beanName,proxy);
 
                     }
-//                    registerBeanByFactoryBean(serviceName,proxy,restClientClass,registry);
+                   // registerBeanByFactoryBean(serviceName,proxy,restClientClass,registry);
                 });
-    }*/
+    }
     private static void registerBeanByFactoryBean(String serviceName,
                                                   Object proxy, Class<?> restClientClass, BeanDefinitionRegistry registry) {
         String beanName = "RestClient." + serviceName;
@@ -83,10 +85,14 @@ public class RestClientsRegistrar {
 
     }
 
-    //todo
-    //@Override
+    @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory=beanFactory;
+    }
 
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
     }
 
     private static class RestClientClassFactoryBean implements FactoryBean{
@@ -110,4 +116,14 @@ public class RestClientsRegistrar {
             return restClientClass;
         }
     }
+
+/*    public BeanFactory getBeanFactory() {
+        return beanFactory;
+    }
+
+    public Environment getEnvironment() {
+        return environment;
+    }*/
+
+
 }

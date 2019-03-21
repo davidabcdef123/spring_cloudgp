@@ -7,6 +7,7 @@ import java.lang.annotation.*;
 
 /**
  * Created by sc on 2019-03-05.
+ *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

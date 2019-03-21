@@ -12,10 +12,10 @@ import java.util.stream.Stream;
 /**
  * Created by sc on 2019-03-05.
  */
-//@RestClient(name = "${saying.rest.service.name}")
+@RestClient(name = "${saying.rest.service.name}")
 public interface SayingRestService {
 
-    //@GetMapping("/say")
+    @GetMapping("/say")
     String say(@RequestParam("message") String message); // 请求参数和方法参数同名
 
     public static void main(String[] args) throws Exception {

@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Created by sc on 2019-03-05.
  */
-//@FeignClient(name = "spring-cloud-server-application")
+@FeignClient(name = "${saying.rest.service.name}")
 public interface SayingService {
 
-  //  @GetMapping("/say")
+    @GetMapping("/say")
     String say(@RequestParam("message") String message);
 }
