@@ -28,6 +28,11 @@ public class SpringAnnotationDrivenEvent {
 
     @EventListener
     public void onMessage(Object eventSource){
-        System.err.println("监听到 MyApplicationEvent 事件源 : " + eventSource);
+        System.err.println("监听到 MyApplicationEvent2222 事件源 : " + eventSource);
+    }
+
+    @EventListener
+    public void onMessage(MyApplicationEvent event) {
+        System.err.println("监听到MyApplicationEvent1111 事件源 : " + event.getSource());
     }
 }

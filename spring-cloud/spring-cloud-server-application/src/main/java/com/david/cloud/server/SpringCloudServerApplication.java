@@ -26,13 +26,13 @@ import java.io.UnsupportedEncodingException;
 @EnableDiscoveryClient// 激活服务发现客户端
 @EnableHystrix// 激活 Hystrix
 @EnableAspectJAutoProxy(proxyTargetClass = true) // 激活 AOP
-//@EnableBinding(SimpleMessageReceiver.class)// 激活并引入 SimpleMessageReceiver
+@EnableBinding(SimpleMessageReceiver.class)// 激活并引入 SimpleMessageReceiver
 @EnableAsync
 @Indexed //预编译会在MEAT-INF下生成文件 todo
 public class SpringCloudServerApplication {
 
-  /*  @Autowired
-    private SimpleMessageReceiver simpleMessageReceiver;*/
+    @Autowired
+    private SimpleMessageReceiver simpleMessageReceiver;
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SpringCloudServerApplication.class)
@@ -40,10 +40,10 @@ public class SpringCloudServerApplication {
          .run(args);
     }
 
-/*    @PostConstruct
+    @PostConstruct
     public void init(){//接口编程
         // 获取 SubscribableChannel
-        SubscribableChannel subscribableChannel = simpleMessageReceiver.gupao();
+        SubscribableChannel subscribableChannel = simpleMessageReceiver.zl();
         subscribableChannel.subscribe(message -> {
             MessageHeaders headers = message.getHeaders();
             String encoding = (String) headers.get("charset-encoding");
@@ -57,27 +57,27 @@ public class SpringCloudServerApplication {
         });
     }
 
-    @StreamListener("gupao2018")  // Spring Cloud Stream 注解驱动
+    @StreamListener("zl2019")  // Spring Cloud Stream 注解驱动
     public void onMessage(byte[] data) {
         System.out.println("onMessage(byte[]): " + new String(data));
     }
 
-    @StreamListener("gupao2018")  // Spring Cloud Stream 注解驱动
+    @StreamListener("zl2019")  // Spring Cloud Stream 注解驱动
     public void onMessage(String data) {
         System.out.println("onMessage(String) : " + data);
     }
 
-    @StreamListener("gupao2018") // Spring Cloud Stream 注解驱动
+    @StreamListener("zl2019") // Spring Cloud Stream 注解驱动
     public void onMessage2(String data2) {
         System.out.println("onMessage2(String) : " + data2);
     }
 
-    @ServiceActivator(inputChannel = "gupao2018") // Spring Integration 注解驱动
+    @ServiceActivator(inputChannel = "zl2019") // Spring Integration 注解驱动
     public void onServiceActivator(String data) {
         System.out.println("onServiceActivator(String) : " + data);
     }
 
-    @StreamListener("test007")  // Spring Cloud Stream 注解驱动
+   /* @StreamListener("test007")  // Spring Cloud Stream 注解驱动
     public void onMessageFromRocketMQ(byte[] data) {
         System.out.println("RocketMQ - onMessage(byte[]): " + new String(data));
     }

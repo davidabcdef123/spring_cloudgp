@@ -8,12 +8,12 @@ import org.springframework.messaging.SubscribableChannel;
  */
 public interface SimpleMessageReceiver {
 
-    @Input("gupao2018")
-    SubscribableChannel gupao();
+    @Input("zl2019")
+    SubscribableChannel zl();
 
-    @Input("test007")
+/*    @Input("test007")
     SubscribableChannel testChannel();
 
     @Input("test-http")
-    SubscribableChannel httpChannel();
+    SubscribableChannel httpChannel();*/
 }
