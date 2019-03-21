@@ -1,5 +1,6 @@
 package com.david.cloud.server.aop;
 
+import com.david.cloud.server.annotation.SemaphoreCircuitBreaker;
 import com.david.cloud.server.annotation.TimeoutCircuitBreaker;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -45,6 +46,25 @@ public class ServerControllerAspect {
         }
         return doInvoke(point, message, timeout);
     }
+
+    @Around("execution(* com.david.cloud.server.controller.ServerController.advancedSay3(..)) && args(message)" +
+            " && @annotation(circuitBreaker) ")
+    public Object advancedSay3InSemaphore(ProceedingJoinPoint point, String message, SemaphoreCircuitBreaker circuitBreaker) throws Throwable{
+        int value=circuitBreaker.value();
+        if (semaphore == null) {
+            semaphore = new Semaphore(value);
+        }
+        Object returnValue=null;
+        if(semaphore.tryAcquire()){
+            returnValue=point.proceed(new Object[]{message});
+            Thread.sleep(1000);
+        }else{
+            returnValue = errorContent("");
+        }
+        semaphore.release();
+        return returnValue;
+    }
+
     //todo presectroy是什么的销毁？jvm实例？
     @PreDestroy
     public void destroy(){
@@ -52,7 +72,8 @@ public class ServerControllerAspect {
     }
 
     public String errorContent(String message) {
-        return "Fault";
+        System.out.println("---------------------------------------->"+message);
+        return "ServerControllerAspect Fault";
     }
 
     private Object doInvoke(ProceedingJoinPoint point, String message, long timeout) {

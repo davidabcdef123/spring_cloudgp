@@ -42,6 +42,17 @@ public class ServerController {
         return returnValue;
     }
 
+    //简易版本-通过抛出异常用
+    @GetMapping("/say3")
+    public String say3(@RequestParam String message) throws Exception {
+        Future<String> future = executorService.submit(() -> {
+            return dosay2(message);
+        });
+        //100 毫秒超时
+        String returnValue = future.get(100, TimeUnit.MILLISECONDS);
+
+        return returnValue;
+    }
     /**
      * 中级版本
      *
@@ -49,6 +60,7 @@ public class ServerController {
      * @return
      * @throws InterruptedException
      */
+    //没有CircuitBreakerControllerAdvice之前这样会进拦截器但是会报500 应该是servlet协议的问题
     @GetMapping("/middle/say")
     public String middleSay(@RequestParam String message) throws Exception {
         Future<String> future = executorService.submit(() -> {
@@ -63,6 +75,17 @@ public class ServerController {
             future.cancel(true); // 取消执行
             throw e;
         }
+        return returnValue;
+    }
+
+    //没有CircuitBreakerControllerAdvice之前这样会进拦截器但是会报500 应该是servlet协议的问题
+    @GetMapping("/middle/say2")
+    public String middleSay2(@RequestParam String message) throws Exception {
+        Future<String> future = executorService.submit(() -> {
+            return dosay2(message);
+        });
+        // 100 毫秒超时
+        String returnValue = future.get(100, TimeUnit.MILLISECONDS);
         return returnValue;
     }
 
@@ -128,11 +151,11 @@ public class ServerController {
     private String dosay2(String message) throws InterruptedException {
         // 如果随机时间 大于 100 ，那么触发容错
         int value = random.nextInt(200);
-        System.out.println("say2() costs " + value + " ms.");
+        System.err.println("say2() costs " + value + " ms.");
         // > 100
         Thread.sleep(value);
         String returnValue = "Say 2 : " + message;
-        System.out.println(returnValue);
+        System.err.println("dosay2="+returnValue);
         return returnValue;
     }
 

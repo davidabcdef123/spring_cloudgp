@@ -37,7 +37,7 @@ public class SpringCloudServerApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(SpringCloudServerApplication.class)
         .web(WebApplicationType.SERVLET)
-        .run(args);
+         .run(args);
     }
 
 /*    @PostConstruct
