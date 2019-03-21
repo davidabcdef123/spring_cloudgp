@@ -36,7 +36,7 @@ import java.util.Random;
  * /gateway/rest-api/hello-world-> http://127.0.0.1:8080/hello-world
  */
 
-@WebServlet(name = "geteway",urlPatterns = "/dateway")
+@WebServlet(name = "geteway",urlPatterns = "/geteway/*")
 public class GatewayServlet extends HttpServlet {
 
     @Autowired
@@ -52,6 +52,7 @@ public class GatewayServlet extends HttpServlet {
         return serviceInstances.get(index);
     }
 
+    //http://localhost:20000/geteway/spring-cloud-client-application/say?message=123
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // ${service-name}/${service-uri}

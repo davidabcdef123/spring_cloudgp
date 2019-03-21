@@ -43,6 +43,7 @@ public class RibbonGatewayServlet  extends HttpServlet {
         return server;
     }
 
+    //http://localhost:20000/ribbon/gateway/spring-cloud-client-application/say?message=123
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // ${service-name}/${service-uri}

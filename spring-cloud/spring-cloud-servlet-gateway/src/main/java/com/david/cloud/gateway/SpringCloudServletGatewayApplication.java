@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@ServletComponentScan(basePackages = "com.gupao.micro.services.spring.cloud.gateway.servlet")
+@ServletComponentScan(basePackages = "com.david.cloud.gateway.servlet")
 @EnableScheduling
 public class SpringCloudServletGatewayApplication {
 
