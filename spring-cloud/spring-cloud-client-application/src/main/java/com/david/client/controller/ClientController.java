@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.bus.ConditionalOnBusEnabled;
 import org.springframework.cloud.client.ServiceInstance;
-import com.alibaba.fastjson.JSON;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -31,8 +30,6 @@ import java.util.stream.Collectors;
 @RestController
 public class ClientController {
 
-/*    @Autowired
-    private RestTemplate restTemplate;*/
 
     @Autowired
     SayingService sayingService;

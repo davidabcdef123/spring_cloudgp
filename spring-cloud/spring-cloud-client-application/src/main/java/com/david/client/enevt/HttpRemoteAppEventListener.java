@@ -1,5 +1,6 @@
 package com.david.client.enevt;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationContext;
@@ -19,8 +20,7 @@ import java.util.Map;
  * 监听 {@link ContextRefreshedEvent}
  */
 
-//todo 注释掉  implements SmartApplicationListener
-public class HttpRemoteAppEventListener  {
+public class HttpRemoteAppEventListener  implements SmartApplicationListener{
 
     private RestTemplate restTemplate = new RestTemplate();
 
@@ -52,20 +52,20 @@ public class HttpRemoteAppEventListener  {
     }
 
 
-    //@Override
+    @Override
     public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
-
-        return RemoteAppEvent.class.isAssignableFrom(eventType)|| ContextRefreshedEvent.class.isAssignableFrom(eventType);
+        return RemoteAppEvent.class.isAssignableFrom(eventType)
+                || ContextRefreshedEvent.class.isAssignableFrom(eventType);
     }
 
-    //@Override
+    @Override
     public boolean supportsSourceType(Class<?> aClass) {
         System.err.println("supportsSourceType="+aClass);
 
         return true;
     }
 
-    //@Override
+    @Override
     public void onApplicationEvent(ApplicationEvent applicationEvent) {
         if(applicationEvent instanceof RemoteAppEvent){
             onApplicationEvent((RemoteAppEvent) applicationEvent);
@@ -76,14 +76,17 @@ public class HttpRemoteAppEventListener  {
 
     }
 
+    //这个时候为null
+    @Autowired
+    DiscoveryClient dusl;
+
     private void onContextRefreshedEvent(ContextRefreshedEvent refreshedEvent) {
         ApplicationContext applicationContext=refreshedEvent.getApplicationContext();
-        //todo 为什么不直接autowird进来dissoceryclient
-        this.discoveryClient = applicationContext.getBean(discoveryClient.getClass());
+        this.discoveryClient = applicationContext.getBean(DiscoveryClient.class);
         this.currentAppName=applicationContext.getEnvironment().getProperty("spring.application.name");
     }
 
-   // @Override
+    @Override
     public int getOrder() {
         return 0;
     }

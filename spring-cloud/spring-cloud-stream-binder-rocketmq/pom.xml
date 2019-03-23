@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring-cloud-stream-binder-rocketmq</artifactId>
+    <version>1.0.0</version>
     <packaging>war</packaging>
 
     <name>spring-cloud-stream-binder-rocketmq Maven Webapp</name>

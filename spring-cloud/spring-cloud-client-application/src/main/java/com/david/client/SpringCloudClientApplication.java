@@ -17,18 +17,19 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * Created by sc on 2019-03-05.
  */
-@SpringBootApplication
-@EnableDiscoveryClient
+@SpringBootApplication // 标准 Spring Boot 应用
+@EnableDiscoveryClient // 激活服务发现客户端
 @EnableScheduling
-@EnableFeignClients(clients = SayingService.class) // 引入 FeignClient spring的
-@EnableRestClient(clients = SayingRestService.class) // 引入 @RestClient 自定义的
-@EnableBinding(SimpleMessageService.class)
+@EnableFeignClients(clients = SayingService.class) // 引入 FeignClient
+@EnableRestClient(clients = SayingRestService.class) // 引入 @RestClient
+@EnableBinding(SimpleMessageService.class) // 激活并引入 SimpleMessageService
 public class SpringCloudClientApplication {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SpringCloudClientApplication.class)
                 .web(WebApplicationType.SERVLET)
-               // .listeners(new HttpRemoteAppEventListener())
+                .listeners(new HttpRemoteAppEventListener())
                 .run(args);
+        System.out.println("启动完成");
     }
 }

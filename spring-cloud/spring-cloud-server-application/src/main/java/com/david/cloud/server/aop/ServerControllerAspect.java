@@ -65,7 +65,7 @@ public class ServerControllerAspect {
         return returnValue;
     }
 
-    //todo presectroy是什么的销毁？jvm实例？
+    //presectroy servlet容器销毁钱
     @PreDestroy
     public void destroy(){
         executorService.shutdown();
