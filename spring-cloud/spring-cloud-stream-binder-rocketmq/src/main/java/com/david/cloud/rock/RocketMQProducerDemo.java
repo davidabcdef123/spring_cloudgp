@@ -15,6 +15,7 @@ public class RocketMQProducerDemo {
         //Instantiate with a producer group name.
         DefaultMQProducer producer = new DefaultMQProducer("test-group");
         producer.setNamesrvAddr("localhost:9876");
+       // producer.setNamesrvAddr("102.4.6:10911");
         //Launch the instance.
         producer.start();
         for (int i=0;i<100;i++){
